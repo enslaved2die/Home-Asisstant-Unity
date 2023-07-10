@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Whitepoint.HomeAssistant
@@ -7,7 +6,7 @@ namespace Whitepoint.HomeAssistant
     public class Entity : MonoBehaviour
     {
         public enum light_service {turn_on, turn_off}
-        public enum color_mode {rgb, temperature}
+        public enum color_mode {rgb, temperature, none}
         
         // [Serializable]
         // public class ServiceData
@@ -32,8 +31,7 @@ namespace Whitepoint.HomeAssistant
         //     public ServiceData service_data;
         //     public Target target;
         // }
-
-        [Serializable]
+        
         public class LightEntity
         {
             public int id;
@@ -46,7 +44,7 @@ namespace Whitepoint.HomeAssistant
             
             public string CreateEntity()
             {
-                id = Connection.currentID++;
+                id = Connection.CurrentID++;
 
                 if (service == light_service.turn_on)
                 {
@@ -57,9 +55,9 @@ namespace Whitepoint.HomeAssistant
                         return "{\"id\":"+ id + ",\"type\": \"call_service\",\"domain\": \"light\",\"service\": \""
                                + service.ToString() 
                                +"\",\"service_data\": " 
-                               + "{\"rgb_color\": " + rgb + "," +
-                               "\"brightness\": \"" + brightness +"\"}," +
-                               "\"target\": {\"entity_id\": \"" + entity_id +"\"}}";
+                               + "{\"rgb_color\": " + rgb + "," 
+                               + "\"brightness\": \"" + brightness +"\"}," 
+                               + "\"target\": {\"entity_id\": \"" + entity_id +"\"}}";
                     }
 
                     if (colorMode == color_mode.temperature)
@@ -67,9 +65,18 @@ namespace Whitepoint.HomeAssistant
                         return "{\"id\":"+ id + ",\"type\": \"call_service\",\"domain\": \"light\",\"service\": \""
                                + service.ToString() 
                                +"\",\"service_data\": " 
-                               + "{\"color_temp_kelvin\": " + kelvin + "," +
-                               "\"brightness\": \"" + brightness +"\"}," +
-                               "\"target\": {\"entity_id\": \"" + entity_id +"\"}}";
+                               + "{\"color_temp_kelvin\": " + kelvin + "," 
+                               + "\"brightness\": \"" + brightness +"\"}," 
+                               + "\"target\": {\"entity_id\": \"" + entity_id +"\"}}";
+                    }
+
+                    if (colorMode == color_mode.none)
+                    {
+                        return "{\"id\":"+ id + ",\"type\": \"call_service\",\"domain\": \"light\",\"service\": \""
+                               + service.ToString() 
+                               +"\",\"service_data\": {"
+                               + "\"brightness\": \"" + brightness +"\"}," 
+                               + "\"target\": {\"entity_id\": \"" + entity_id +"\"}}";
                     }
                 }
                 
@@ -80,7 +87,7 @@ namespace Whitepoint.HomeAssistant
 
             public string On_Off()
             {
-                id = Connection.currentID++;
+                id = Connection.CurrentID++;
                 return "{\"id\":"+ id + ",\"type\": \"call_service\",\"domain\": \"light\",\"service\": \""
                        + service.ToString() + "\",\"target\": {\"entity_id\": \"" + entity_id +"\"}}";
             }
