@@ -12,7 +12,7 @@ namespace Whitepoint.HomeAssistant
         public string token;
 
         Auth authentication = new Auth();
-        public Subscribe allEvents = new Subscribe();
+        Subscribe allEvents = new Subscribe();
         public bool subscribeToAll = false;
         
         public static int CurrentID;

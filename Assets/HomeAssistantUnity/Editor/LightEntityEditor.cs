@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEngine;
 using Whitepoint.HomeAssistant;
 
 [CustomEditor(typeof(LightEntity))]
@@ -30,7 +31,7 @@ public class LightEntityEditor : Editor
             else if(_color_mode.intValue == (int)Entity.color_mode.temperature) 
                 EditorGUILayout.PropertyField(_kelvin);
         }
-        EditorGUILayout.PropertyField(_brightness); 
+        EditorGUILayout.PropertyField(_brightness);
         serializedObject.ApplyModifiedProperties();
     }
 }
